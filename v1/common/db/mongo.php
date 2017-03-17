@@ -7,17 +7,19 @@ if(!defined('__MONGO__')){
 	Class MGDB {
 		private $connection;
 		private $db;
+		private $collection;
 		private $handle;
 		private $is_log;
 		private $time;
 		
-		public function __construct() {
+		public function __construct($cname) {
 			// time start
 			$this->time = $this->microtime_float();
 			if(!isset($this->connection)){
 				$this->connection = new MongoClient(MONGO_ADDR); 
 			}
-			$this->db = $this->connection->selectDB(MONGO_DB);//$this->db = $this->connection->lamf;	
+			$this->db = $this->connection->selectDB(MONGO_DB);//$this->db = $this->connection->lamf;
+			$this->collection = $this->db->selectCollection($cname);
 			$this->is_log = _LOG;
 			if($this->is_log){
 				$handle = fopen(MONGODB_LOGPATH, "a+");
@@ -25,24 +27,39 @@ if(!defined('__MONGO__')){
 			}
 		}
 		
+		//return array
+		public function find($filters = array()){
+			try{
+				$cursor = $this->collection->find($filters);
+			}catch(Exception $e){
+				echo 'Message: ' .$e->getMessage();;
+			}
+			return iterator_to_array($cursor);
+		}
+		
+		//return {'ok': , 'err': , 'n': } check php mongodb insert doc 
+		public function insert($datas = array()){
+			try{
+				return $this->collection->insert($datas);
+			}catch(Exception $e){
+				echo 'Message: ' .$e->getMessage();;
+			}
+		}
+		
+		public function delate($filters){
+			
+		}
+		
 		/// <summary>
         /// select collection by name
         /// </summary>
         /// <param name="name">collection name</param>
         /// <returns>collection object</returns>
-		public function sel_coll($name){
-			return $this->db->selectCollection($name);//return $this->db->$name;
-		}
+		//public function sel_coll(){
+			//return $this->collection;//$this->db->selectCollection($name);//return $this->db->$name;
+		//}
 		
-		public function get_colls(){
-			 return $this->db->getCollectionNames();
-		}
 		
-		//return array
-		public function get($conditions){
-			$cursor = $collection->find($conditions);
-			return iterator_to_array($cursor);
-		}
 		
 		//die and alert error
 		private function halt($msg='') {
