@@ -1,0 +1,8 @@
+控制台1
+1.mongod.exe --dbpath f:\mongodb\data --port 28017
+控制台2
+2.mongo 127.0.0.1:28017
+
+启动mongo 服务
+mongod --config f:\mongodb\etc\mongodb.conf --install
+net start mongodb

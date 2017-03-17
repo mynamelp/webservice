@@ -1,0 +1,6 @@
+users表，属性（）
+username: 位数规则，字符集规则
+password：位数规则，字符集规则
+client key：位数规则
+nick：规则
+uid：规则
