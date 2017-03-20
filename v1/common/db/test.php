@@ -23,7 +23,10 @@ while ($row = mysql_fetch_assoc($collection)) {
 *
 **/
 $db = new MGDB('users');// users collection
-//$cursor = $db->find(array());
-//var_dump($cursor);
-//$db->insert(array('id'=>3, 'uid'=>987654, 'username'=>1333988676, 'nick'=>'lucy', 'tips'=>array(1,2,3,4,5)));
+//$r = $db->find(array());
+
+//$r = $db->insert(array('id'=>3, 'uid'=>987654, 'username'=>1333988676, 'nick'=>'lucy', 'tips'=>array(1,2,3,4,5)));
+
+$r = $db->delate(array('id'=>3));
+var_dump($r);
 ?>

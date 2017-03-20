@@ -11,9 +11,9 @@ if(!defined('__TOKEN__')){
 		private $coll;
 		private $vfy;
 		
-		public function __construct(){
-			$this->db = new MGDB();// users collection
-			$this->coll = $this->db->sel_coll('users');
+		public function __construct($cname){
+			$this->db = new MGDB($cname);// users collection
+			$this->coll = $this->db->sel_coll($cname);
 			$this->vfy = new VERIFY();
 			//
 		}

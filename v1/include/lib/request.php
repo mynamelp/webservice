@@ -1,4 +1,15 @@
 <?php
+
+class REQUEST{
+	
+	public function __construct(){
+	
+	}
+	
+	public function 
+	
+}
+
 /**
      * 模拟post进行url请求
      * @param string $url
