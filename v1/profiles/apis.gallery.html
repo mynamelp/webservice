@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>apis test desk</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="jquery-3.2.0.min.js"></script>
+<script type'text/javascript'>
+$(document).ready(function(){
+	$("#submit").click(run);
+		
+	function run(){
+		var url = $("#url").val();
+		var method = $("input[name=method]:checked").val();
+		var params_str = $("#params").val();
+		
+		if(url == '' || method == '' || params_str ==''){
+			//alert('there is input is null');
+		};
+		var params = JSON.parse(params_str);//params_str.parseJSON();//JSON.parse(params_str);
+		
+		switch(method){
+			case 'GET':
+				var type = 'GET';
+				break;
+			case 'POST':
+				var type = 'POST';
+				break;
+			case 'PUT':
+				var type = 'PUT';
+				break;
+			case 'PATCH':
+				var type = 'PATCH';
+				break;
+			case 'DELATE':
+				var type = 'DELATE';
+				break;
+			default:
+		}
+		
+		$.ajax({
+			url:url,
+			type:type, //GET POST PUT PATCH DELATE
+			async:true,    //或false,是否异步
+			dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+			//contentType:'application/json',
+			data:params,
+			timeout:5000,    //超时时间
+			beforeSend:function(xhr){
+				console.log(params)
+				console.log('发送前')
+			},
+			success:function(msg){
+				console.log(msg)
+				console.log(' success ')
+				$("#result").html(JSON.stringify(msg.datas));
+				
+			},
+			error:function(msg){
+				console.log('错误')
+				console.log(msg.responseText);
+				$("#result").html(msg.responseText);
+			},
+			complete:function(){
+				console.log('结束')
+			}
+		});	
+	}
+})
+</script>
+</head>
+<body>
+<div style='margin:0 auto;text-align:center'>
+	<div id='inputting'>
+		<p>Input:</p>
+		<input type='text' id='url' value='http://127.0.0.1/lamf/trunk/api/v1/handler/feedbacks.handler.php'></input>
+		<div id='method'>
+			<label><input name="method" type="radio" value="GET" />GET</label> 
+			<label><input name="method" type="radio" value="POST" checked />POST</label> 
+			<label><input name="method" type="radio" value="PUT" />PUT</label> 
+			<label><input name="method" type="radio" value="PATCH" />PATCH</label> 
+			<label><input name="method" type="radio" value="DELATE" />DELATE</label> 
+		</div>
+		<textarea id='params' style='width:500px;height:200px'>{"content":"post from desk insert a feedback", "contact":"it2@gmail.com","id":7}</textarea>
+		<input id='submit' type='button' value='submit'></input>
+	</div>
+	<div id='outputting'>
+		<p>Output:</p>
+		<div id='result' style='background-color:#989898'>...</div>
+	</div>
+</div>
+<script type'text/javascript'>
+
+</script>
+</body>
+</html>

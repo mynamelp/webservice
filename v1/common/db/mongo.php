@@ -12,7 +12,7 @@ if(!defined('__MONGO__')){
 		private $is_log;
 		private $time;
 		
-		public function __construct($cname) {
+		public function __construct($cname){
 			// time start
 			$this->time = $this->microtime_float();
 			try{
@@ -31,10 +31,27 @@ if(!defined('__MONGO__')){
 			}
 		}
 		
+		private function to_int($val){
+			if(strlen(floatval($val)) == strlen($val))
+				return floatval($val);
+			return $val;
+		}
+		
+		//$cursor->limit(1);
+		//$cursor->skip(1);
+		//$cursor->sort(array('date' => 1, 'age' => -1));
+		
 		//return array
-		public function find($criteria = array()){
+		public function find($filters = array(), $limit= 0, $sort=array(), $skip=0){
 			try{
-				$cursor = $this->collection->find($criteria);
+				foreach($filters as &$v){
+					$v = $this->to_int($v);
+				}
+				unset($v);
+				$cursor = $this->collection->find($filters);
+				//if($limit !== 0){$cursor->limit($limit);}
+				//if(!empty($sort)){$cursor->sort($sort);}
+				//if($skip !== 0){$cursor->skip($skip);}
 			}catch(Exception $e){
 				echo 'Message: ' .$e->getMessage();
 			}
@@ -54,26 +71,26 @@ if(!defined('__MONGO__')){
 		//ok 1
 		//err null
 		//errmsg null
-		public function delate($criteria){
+		public function delate($filters){
 			//$this->collection->remove(array('_id' => new MongoId($id)), true);
 			try{
-				return $this->collection->remove($criteria);//, array("justOne" => true)
+				return $this->collection->remove($filters);//, array("justOne" => true)
 			}catch(Exception $e){
 				echo 'Message: ' .$e->getMessage();
 			}
 		}
 		
-		public function put($criteria, $datas, $options = array('upsert', false, 'multiple'=>true)){
+		public function put($filters, $datas, $options = array('upsert', false, 'multiple'=>true)){
 			try{
-				return $this->collection->update($criteria, $datas, $options);//, array("justOne" => true)
+				return $this->collection->update($filters, $datas, $options);//, array("justOne" => true)
 			}catch(Exception $e){
 				echo 'Message: ' .$e->getMessage();
 			}
 		}
 		
-		public function patch($criteria, $datas, $options = array('upsert', false, 'multiple'=>true)){
+		public function patch($filters, $datas, $options = array('upsert', false, 'multiple'=>true)){
 			try{
-				return $this->collection->update($criteria, array('set'=> $datas), $options);//, array("justOne" => true)
+				return $this->collection->update($filters, array('set'=> $datas), $options);//, array("justOne" => true)
 			}catch(Exception $e){
 				echo 'Message: ' .$e->getMessage();
 			}
