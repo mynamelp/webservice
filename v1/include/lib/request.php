@@ -23,7 +23,11 @@ if(!defined('__REQUEST__')){
 			}
 			switch($_SERVER['REQUEST_METHOD']){
 				case 'GET':
-				
+					if(empty($_GET)){
+						//err result 
+						echo $response->makeResults(400, array(), 'Get filters is empty');
+						return false;
+					}
 					break;
 				case 'POST':
 					//check post
@@ -46,10 +50,56 @@ if(!defined('__REQUEST__')){
 					}
 					break;
 				case 'PUT':
-				
+					//check post
+					if (empty($_POST)){
+						//err result 
+						echo $this->makeResults(404, array(), 'post empty');
+						return false;
+					}
+					//check post['token']
+					if(!isset($_POST['token'])){
+						//unset token 
+						echo $this->makeResults(403, $_POST, 'token is needed');
+						return false;
+					}
+					//check post['datas']
+					if(!isset($_POST['datas'])){
+						//unset token 
+						echo $this->makeResults(404, $_POST, 'post datas empty');
+						return false;
+					}
+					//check post['filters']
+					if(!isset($_POST['filters'])){
+						//unset token 
+						echo $this->makeResults(404, $_POST, 'post filters empty');
+						return false;
+					}
 					break;
 				case 'PATCH':
-				
+					//check post
+					if (empty($_POST)){
+						//err result 
+						echo $this->makeResults(404, array(), 'post empty');
+						return false;
+					}
+					//check post['token']
+					if(!isset($_POST['token'])){
+						//unset token 
+						echo $this->makeResults(403, $_POST, 'token is needed');
+						return false;
+					}
+					//check post['datas']
+					if(!isset($_POST['datas'])){
+						//unset token 
+						echo $this->makeResults(404, $_POST, 'post datas empty');
+						return false;
+					}
+					//check post['filters']
+					if(!isset($_POST['filters'])){
+						//unset token 
+						echo $this->makeResults(404, $_POST, 'post filters empty');
+						return false;
+					}
 					break;
 				case 'DELATE':
 				

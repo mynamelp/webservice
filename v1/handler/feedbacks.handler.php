@@ -26,12 +26,12 @@ switch($method){
 			die();
 		}
 		echo $response->sendResponse($result);
-	break;
+		break;
 	case 'GET':
 		echo $response->makeResults(500, array(), 'Error ,there is no method for get');
-	break;
+		break;
 	default:
 		echo $response->makeResults(404, array(), 'Error ,wrong method');
-	break;
+		break;
 }
 ?>

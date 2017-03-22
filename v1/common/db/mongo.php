@@ -61,6 +61,7 @@ if(!defined('__MONGO__')){
 		//return {'ok': , 'err': , 'n': } check php mongodb insert doc 
 		public function insert($datas = array()){
 			try{
+				
 				return $this->collection->insert($datas);
 			}catch(Exception $e){
 				echo 'Message: ' .$e->getMessage();

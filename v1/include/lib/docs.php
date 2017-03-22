@@ -6,9 +6,9 @@ if(!defined('__DOCS__')){
 	require_once(dirname(__FILE__) . "/../../common/data/funcs.gobal.php");
 	
 	class DOCS{
-		private static $method_type = array('get', 'post', 'put', 'patch', 'delete');
-		private static $db;
-		//private static $coll;
+		public static $method_type = array('get', 'post', 'put', 'patch', 'delete');
+		public static $db;
+		//public static $coll;
 		
 		public function __construct($cname){
 			self::$db = new MGDB($cname);
@@ -25,7 +25,7 @@ if(!defined('__DOCS__')){
 		}
 		
 		//GET :find by filters limit sort skip and params
-		private static function getData($filters){//criteria is an object
+		public static function getData($filters){//criteria is an object
 			$limit= 0;
 			$sort=array();
 			$skip=0;
@@ -52,7 +52,7 @@ if(!defined('__DOCS__')){
 		}
 
 		//POST /insert
-		private static function postData($datas){
+		public static function postData($datas){
 			if (!empty($datas)){
 				$res = self::$db->insert($datas);
 				if($res['ok'] == 1){
@@ -66,19 +66,21 @@ if(!defined('__DOCS__')){
 		}
 
 		//PUT put
-		private static function putData($criteria, $datas){
-			$data = array();
+		public static function putData($params){
+			$datas = $params['datas'];
+			$filters = $params['filters'];
 			return self::$db->put($criteria, $datas);
 		}
 
 		//PATCH patch
-		private static function patchData($criteria, $datas){
-			$data = array();
-			return self::$db->patch($criteria, $datas);
+		public static function patchData($params){
+			$datas = $params['datas'];
+			$filters = $params['filters'];
+			return self::$db->patch($filters, $datas);
 		}
 
 		//DELETE remove
-		private static function deleteData($criteria){
+		public static function deleteData($criteria){
 			return self::$db->delate($criteria);
 		}
 	}

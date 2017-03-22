@@ -4,6 +4,7 @@ if(!defined('__DB__')){
     define('__DB__',1);
 	require_once(dirname(__FILE__) . "/mysql.php");
 	require_once(dirname(__FILE__) . "/mongo.php");
+	date_default_timezone_set('Asia/Shanghai'); 
 
 	Class DB {
 		private $_type;
