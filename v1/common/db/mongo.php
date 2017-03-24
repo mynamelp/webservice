@@ -32,7 +32,7 @@ if(!defined('__MONGO__')){
 		}
 		
 		private function to_int($val){
-			if(strlen(floatval($val)) == strlen($val))
+			if(is_string($val) && strlen(floatval($val)) == strlen($val))
 				return floatval($val);
 			return $val;
 		}
@@ -44,18 +44,43 @@ if(!defined('__MONGO__')){
 		//return array
 		public function find($filters = array(), $limit= 0, $sort=array(), $skip=0){
 			try{
-				foreach($filters as &$v){
-					$v = $this->to_int($v);
+				if(isset($filters['_id'])){
+					$filters['_id'] = new MongoId($filters['_id']);
 				}
-				unset($v);
+				//foreach($filters as &$v){
+					//$v = $this->to_int($v);
+				//}
+				//unset($v);
 				$cursor = $this->collection->find($filters);
-				//if($limit !== 0){$cursor->limit($limit);}
-				//if(!empty($sort)){$cursor->sort($sort);}
-				//if($skip !== 0){$cursor->skip($skip);}
+				if($limit !== 0){$cursor->limit($limit);}
+				if(!empty($sort)){$cursor->sort($sort);}
+				if($skip !== 0){$cursor->skip($skip);}
 			}catch(Exception $e){
 				echo 'Message: ' .$e->getMessage();
 			}
-			return iterator_to_array($cursor);
+			//return iterator_to_array($cursor);
+			$datas = array();
+			foreach($cursor as $v){
+				array_push($datas,$v);
+			}
+			
+			return $datas;
+		}
+		
+		public function find_one($filters = array()){
+			try{
+				if(isset($filters['_id'])){
+					$filters['_id'] = new MongoId($filters['_id']);
+				}
+				//foreach($filters as &$v){
+					//$v = $this->to_int($v);
+				//}
+				//unset($v);
+				$cursor = $this->collection->findOne($filters);
+			}catch(Exception $e){
+				echo 'Message: ' .$e->getMessage();
+			}
+			return $cursor;
 		}
 		
 		//return {'ok': , 'err': , 'n': } check php mongodb insert doc 
@@ -72,9 +97,11 @@ if(!defined('__MONGO__')){
 		//ok 1
 		//err null
 		//errmsg null
-		public function delate($filters){
-			//$this->collection->remove(array('_id' => new MongoId($id)), true);
+		public function delete($filters){
 			try{
+				if(isset($filters['_id'])){
+					$filters['_id'] = new MongoId($filters['_id']);
+				}
 				return $this->collection->remove($filters);//, array("justOne" => true)
 			}catch(Exception $e){
 				echo 'Message: ' .$e->getMessage();
@@ -83,6 +110,9 @@ if(!defined('__MONGO__')){
 		
 		public function put($filters, $datas, $options = array('upsert', false, 'multiple'=>true)){
 			try{
+				if(isset($filters['_id'])){
+					$filters['_id'] = new MongoId($filters['_id']);
+				}
 				return $this->collection->update($filters, $datas, $options);//, array("justOne" => true)
 			}catch(Exception $e){
 				echo 'Message: ' .$e->getMessage();
@@ -91,7 +121,10 @@ if(!defined('__MONGO__')){
 		
 		public function patch($filters, $datas, $options = array('upsert', false, 'multiple'=>true)){
 			try{
-				return $this->collection->update($filters, array('set'=> $datas), $options);//, array("justOne" => true)
+				if(isset($filters['_id'])){
+					$filters['_id'] = new MongoId($filters['_id']);
+				}
+				return $this->collection->update($filters, array('$set'=> $datas), $options);//, array("justOne" => true)
 			}catch(Exception $e){
 				echo 'Message: ' .$e->getMessage();
 			}

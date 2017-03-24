@@ -6,16 +6,30 @@ if(!defined('__DOCS__')){
 	require_once(dirname(__FILE__) . "/../../common/data/funcs.gobal.php");
 	
 	class DOCS{
-		private $db;
+		public static $method_type = array('get', 'post', 'put', 'patch', 'delete');
+		public static $db;
+		//public static $coll;
 		
 		public function __construct($cname){
-			$this->db = new MGDB($cname);
+			self::$db = new MGDB($cname);
+			//self::$coll = self::$db->sel_coll($cname);
+		}
+		
+		public static function getRequest($req_method, $datas){
+			$method = strtolower($req_method);//request type [GET POST PATCH PUT DELATE]
+			if (in_array($method, self::$method_type)){
+				$data_name = $method . 'Data';
+				return self::$data_name($datas);//run function
+			}
+			return false;
 		}
 		
 		//GET :find by filters limit sort skip and params
-		public function getData($filters){
+		public static function getData($filters){//criteria is an object
+			$limit= 0;
 			$sort=array();
-			$limit= 0;$skip=0;$order = 1;
+			$skip=0;
+			$order = 1;
 			if(isset($filters['limit'])){
 				if(__isInt($filters['limit']) !== false)
 					$limit = $filters['limit'];
@@ -33,14 +47,14 @@ if(!defined('__DOCS__')){
 					$sort = array($filters['sortby']=>$order);
 				}
 			}
-			$datas = $this->db->find($filters, $limit, $sort, $skip);
+			$datas = self::$db->find($filters, $limit, $sort, $skip);
 			return $datas;
 		}
 
 		//POST /insert
-		public function postData($datas){
+		public static function postData($datas){
 			if (!empty($datas)){
-				$res = $this->db->insert($datas);
+				$res = self::$db->insert($datas);
 				if($res['ok'] == 1){
 					return $datas;
 				}else{
@@ -52,30 +66,22 @@ if(!defined('__DOCS__')){
 		}
 
 		//PUT put
-		public function putData($params){
+		public static function putData($params){
 			$datas = $params['datas'];
 			$filters = $params['filters'];
-			$r = $this->db->patch($filters, $datas);
-			if($r['ok'] == 1){
-				return $params;
-			}
-			return false;
+			return self::$db->put($criteria, $datas);
 		}
 
 		//PATCH patch
-		public function patchData($params){
+		public static function patchData($params){
 			$datas = $params['datas'];
 			$filters = $params['filters'];
-			$r = $this->db->patch($filters, $datas);
-			if($r['ok'] == 1){
-				return $params;
-			}
-			return false;
+			return self::$db->patch($filters, $datas);
 		}
 
 		//DELETE remove
-		public function deleteData($filters){
-			return $this->db->delete($filters);
+		public static function deleteData($criteria){
+			return self::$db->delate($criteria);
 		}
 	}
 }

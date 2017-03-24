@@ -13,7 +13,6 @@ if(!defined('__TOKEN__')){
 		
 		public function __construct($cname){
 			$this->db = new MGDB($cname);// users collection
-			$this->coll = $this->db->sel_coll($cname);
 			$this->vfy = new VERIFY();
 			//
 		}
@@ -24,7 +23,7 @@ if(!defined('__TOKEN__')){
 			$_ck_pw = $this->vfy->vfy_pw($pw);
 			if(!$_ck_pw['status']) return $_ck_pw;
 			$_ck_clt = $this->vfy->ck_vchar_empty($clt_key);
-			if(!$_ck_clt['status']) return {'status':$_ck_clt['status'], 'message':'client key is empty'};
+			if(!$_ck_clt['status']) return array('status'=>$_ck_clt['status'], 'message'=>'client key is empty');
 			return $token=md5($username.$pw.date('yyyy').date('mm').$clt_key.SALT);
 		}
 		//then save it as username with expiry
@@ -33,15 +32,15 @@ if(!defined('__TOKEN__')){
 			$_ck_un = $this->vfy->vfy_username($username);
 			if(!$_ck_un['status']) return $_ck_un;
 			$_ck_tk = $this->vfy->ck_vchar_empty($token);
-			if(!$_ck_tk['status']) return {'status':$_ck_tk['status'], 'message':'token is empty'};
-			$up_rslt = $this->coll->update(array("username" => $username), array('$set' => array("token" => $token, 'expiry'=>$expiry)));
-			if(!$up_rslt) return {'status':false, 'message':"failed to save token by username: $username"};
-			return {'status':true, 'message':"sucess to update token by user $username"};
+			if(!$_ck_tk['status']) return array('status'=>$_ck_tk['status'], 'message'=>'token is empty');
+			$up_rslt = $this->db->patch(array("username" => $username), array("token" => $token, 'expiry'=>$expiry));
+			if(!$up_rslt) return array('status'=>false, 'message'=>"failed to save token by username: $username");
+			return array('status'=>true, 'message'=>"sucess to update token by user $username");
 		}
 		//after get token from server db 
-		public function get($username){
+		public function get($_id){
 			//db get
-			return $this->coll->findOne(array("username" => $username));
+			return $this->db->find_one(array('_id' => $_id), array('token'=>true));
 		}
 		//compare client token with server token,and return bool
 		public function check($clt_tk, $svr_tk){
@@ -51,4 +50,5 @@ if(!defined('__TOKEN__')){
 				return false;
 		}
 	}
+}
 ?>

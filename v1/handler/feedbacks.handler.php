@@ -1,26 +1,46 @@
 <?php 
-//header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description, access');
+header("Content-Type: application/json");
 require_once(dirname(__FILE__) . "/../include/feedbacks.php");
+require_once(dirname(__FILE__) . "/../include/lib/request.php");
 require_once(dirname(__FILE__) . "/../include/lib/response.php");
+require_once(dirname(__FILE__) . "/../common/data/usr_token.php");
 
-$method = $_SERVER['REQUEST_METHOD'];
+
 $response = new Response();
 $request = new Request();
-if(!$request->check_request()){
-	//check http header
+$cr = $request->check_request();
+if(!$cr['success']){
+	echo $response->makeResults($cr['status'], $cr['datas'], $cr['errmsg']);
 	die();
 };
 
+$method = $_SERVER['REQUEST_METHOD'];
 switch($method){
 	case 'POST':
 		//API：新增 用户反馈
-		if(!$request->check_token($_POST['token'])){
-			echo $this->makeResults(403, array(), 'wrong token');
+		//请求格式
+		//{ 
+		//      datas:{	
+		//				uid:(string),
+		//				contact:(string), 
+		//              content:(string), 
+		//				client:(string),
+		//				time:(int)
+		//				},
+		//		token:(string)
+		//}
+		$datas = $_POST['datas'];
+		$uid= $datas['uid'];
+		$token = $_POST['token'];
+		$usrOBJ = new USRTK('users');
+		$tkRT = $usrOBJ->get($_id);
+		//check server token and client token matchment
+		if(!$usrOBJ->check($token, $tkRT['token'])){
+			echo $this->makeResults(403, array(), 'invaild token');
 			die();
 		}
-		$datas = $_POST['datas'];
 		$fdbk = new FEEDBACKS('feedbacks');
-		$result = $fdbk->getRequest($method, $datas);
+		$result = $fdbk->postData($datas);
 		if($result == false){
 			echo $response->makeResults(500, $datas, 'Error ,wrong http method');
 			die();

@@ -13,92 +13,126 @@ if(!defined('__REQUEST__')){
 		public function check_request(){
 			//check _SERVER
 			if(empty($_SERVER)){
-				echo $this->makeResults(404, array(), 'Server is empty');
-				return false;
+				return array(	'success'=>false, 
+								'status'=>400, 
+								'datas'=>array(), 
+								'errmsg'=>'$_Server is empty'
+							);
 			}
 			//check method
 			if(!isset($_SERVER['REQUEST_METHOD'])){
-				echo $this->makeResults(404, array(), 'request is unset');
-				return false;
+				return array(	'success'=>false, 
+								'status'=>400, 
+								'datas'=>array(), 
+								'errmsg'=>'request method is unset'
+							);
+			}
+			
+			//$_POST $_GET $_PUT $_PATCH $_DELETE 
+			$_request = $_REQUEST;
+			if(empty($_request)){
+				parse_str(file_get_contents('php://input'), $_request);
+				$tmp = "_".$_SERVER['REQUEST_METHOD'];
+				global $$tmp;
+				$$tmp = $_request;
+			}
+			
+			//check post and get datas
+			if(empty($_request)){
+				return array(	'success'=>false, 
+								'status'=>400, 
+								'datas'=>array(), 
+								'errmsg'=>'request datas is empty'
+				);
 			}
 			switch($_SERVER['REQUEST_METHOD']){
 				case 'GET':
-					if(empty($_GET)){
-						//err result 
-						echo $response->makeResults(400, array(), 'Get filters is empty');
-						return false;
+					//filters cant be empty
+					if(!isset($_request['filters'])){
+						//unset filters 
+						return array(	'success'=>false, 
+										'status'=>400, 
+										'datas'=>$_request, 
+										'errmsg'=>'filters unset'
+						);
 					}
 					break;
 				case 'POST':
-					//check post
-					if (empty($_POST)){
-						//err result 
-						echo $this->makeResults(404, array(), 'post empty');
-						return false;
-					}
 					//check post['token']
-					if(!isset($_POST['token'])){
+					if(!isset($_request['token'])){
 						//unset token 
-						echo $this->makeResults(403, $_POST, 'token is needed');
-						return false;
+						return array(	'success'=>false, 
+										'status'=>400, 
+										'datas'=>$_request, 
+										'errmsg'=>'token unset'
+						);
 					}
 					//check post['datas']
-					if(!isset($_POST['datas'])){
-						//unset token 
-						echo $this->makeResults(404, $_POST, 'post datas empty');
-						return false;
+					if(!isset($_request['datas'])){
+						//unset datas
+						return array(	'success'=>false, 
+										'status'=>400, 
+										'datas'=>$_request, 
+										'errmsg'=>'datas unset'
+						);
 					}
 					break;
 				case 'PUT':
-					//check post
-					if (empty($_POST)){
-						//err result 
-						echo $this->makeResults(404, array(), 'post empty');
-						return false;
-					}
 					//check post['token']
-					if(!isset($_POST['token'])){
+					if(!isset($_request['token'])){
 						//unset token 
-						echo $this->makeResults(403, $_POST, 'token is needed');
-						return false;
+						return array(	'success'=>false, 
+										'status'=>400, 
+										'datas'=>$_request, 
+										'errmsg'=>'token unset'
+						);
 					}
 					//check post['datas']
-					if(!isset($_POST['datas'])){
-						//unset token 
-						echo $this->makeResults(404, $_POST, 'post datas empty');
-						return false;
+					if(!isset($_request['datas'])){
+						//unset datas
+						return array(	'success'=>false, 
+										'status'=>400, 
+										'datas'=>$_request, 
+										'errmsg'=>'datas unset'
+						);
 					}
 					//check post['filters']
-					if(!isset($_POST['filters'])){
-						//unset token 
-						echo $this->makeResults(404, $_POST, 'post filters empty');
-						return false;
+					if(!isset($_request['filters'])){
+						//unset filters
+						return array(	'success'=>false, 
+										'status'=>400, 
+										'datas'=>$_request, 
+										'errmsg'=>'filters unset'
+						);
 					}
 					break;
 				case 'PATCH':
-					//check post
-					if (empty($_POST)){
-						//err result 
-						echo $this->makeResults(404, array(), 'post empty');
-						return false;
-					}
 					//check post['token']
-					if(!isset($_POST['token'])){
+					if(!isset($_request['token'])){
 						//unset token 
-						echo $this->makeResults(403, $_POST, 'token is needed');
-						return false;
+						return array(	'success'=>false, 
+										'status'=>400, 
+										'datas'=>$_request, 
+										'errmsg'=>'token unset'
+						);
 					}
 					//check post['datas']
-					if(!isset($_POST['datas'])){
+					if(!isset($_request['datas'])){
 						//unset token 
-						echo $this->makeResults(404, $_POST, 'post datas empty');
-						return false;
+						return array(	'success'=>false, 
+										'status'=>400, 
+										'datas'=>$_request, 
+										'errmsg'=>'datas unset'
+						);
 					}
 					//check post['filters']
-					if(!isset($_POST['filters'])){
+					if(!isset($_request['filters'])){
 						//unset token 
-						echo $this->makeResults(404, $_POST, 'post filters empty');
-						return false;
+						return array(	'success'=>false, 
+										'status'=>400, 
+										'datas'=>$_request, 
+										'errmsg'=>'filters unset'
+						);
 					}
 					break;
 				case 'DELATE':
@@ -107,7 +141,11 @@ if(!defined('__REQUEST__')){
 				default:
 					break;
 			}
-			return true;
+			return array(	'success'=>true, 
+							'status'=>200, 
+							'datas'=>$_request, 
+							'errmsg'=>''
+						);
 		}
 		
 		public function check_token($token){

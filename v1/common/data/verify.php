@@ -13,7 +13,7 @@ if(!defined('__VERIFY__')){
 		}
 		
 		//verify strings by length and preg_match ,such as username ,password and so on
-		public function vfy_string($str, $sl, $ll, $rule="/^[@_a-zA-Z0-9]*$/"){
+		public function vfy_string($str, $sl=4, $ll=20, $rule="/^[@_a-zA-Z0-9]*$/"){
 			$_ck = $this->ck_vchar_empty($str);
 			if(!$_ck['status']) return $_ck;
 			$_cl = $this->ck_len_btw($str, $sl, $ll);
@@ -22,7 +22,7 @@ if(!defined('__VERIFY__')){
 			return array('status'=>true, 'message'=> '');
 		}
 		
-		public function vfy_username($username, $sl, $ll, $rule="/^[@_a-zA-Z0-9]*$/"){
+		public function vfy_username($username, $sl=4, $ll=20, $rule="/^[@_a-zA-Z0-9]*$/"){
 			$_ck = $this->ck_vchar_empty($username);
 			if(!$_ck['status']) return $_ck;
 			$_cl = $this->ck_len_btw($username, $sl, $ll);
@@ -31,7 +31,7 @@ if(!defined('__VERIFY__')){
 			return array('status'=>true, 'message'=>'');
 		}
 		
-		public function vfy_pw($pw, $sl, $ll, $rule="/^[_a-zA-Z0-9]*$/"){
+		public function vfy_pw($pw, $sl=4, $ll=20, $rule="/^[_a-zA-Z0-9]*$/"){
 			$_ck = $this->ck_vchar_empty($pw);
 			if(!$_ck['status']) return $_ck;
 			$_cl = $this->ck_len_btw($pw, $sl, $ll);

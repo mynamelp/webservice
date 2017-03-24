@@ -5,7 +5,7 @@ if(!defined("__CONFIG_")){
 	date_default_timezone_set("Asia/Hong_Kong");
 	define('DEBUG',1);// (0 or 1)
 	// user token salt
-	define('SALT', 'LAPINGGUO');
+	define('SALT', 'fdsafagfdgv43532ju76jM');
 	
 }
 

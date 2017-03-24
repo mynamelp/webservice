@@ -31,15 +31,15 @@ $(document).ready(function(){
 			case 'PATCH':
 				var type = 'PATCH';
 				break;
-			case 'DELATE':
-				var type = 'DELATE';
+			case 'DELETE':
+				var type = 'DELETE';
 				break;
 			default:
 		}
 		
 		$.ajax({
 			url:url,
-			type:type, //GET POST PUT PATCH DELATE
+			type:type, //GET POST PUT PATCH DELETE
 			async:true,    //或false,是否异步
 			dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
 			//contentType:'application/json',
@@ -72,15 +72,15 @@ $(document).ready(function(){
 <div style='margin:0 auto;text-align:center'>
 	<div id='inputting'>
 		<p>Input:</p>
-		<input type='text' id='url' value='http://127.0.0.1/lamf/trunk/api/v1/handler/feedbacks.handler.php'></input>
+		<input type='text' id='url' value='http://127.0.0.1/lamf/trunk/api/v1/handler/users.handler.php'></input>
 		<div id='method'>
-			<label><input name="method" type="radio" value="GET" />GET</label> 
-			<label><input name="method" type="radio" value="POST" checked />POST</label> 
+			<label><input name="method" type="radio" value="GET" checked />GET</label> 
+			<label><input name="method" type="radio" value="POST"  />POST</label> 
 			<label><input name="method" type="radio" value="PUT" />PUT</label> 
 			<label><input name="method" type="radio" value="PATCH" />PATCH</label> 
-			<label><input name="method" type="radio" value="DELATE" />DELATE</label> 
+			<label><input name="method" type="radio" value="DELETE" />DELETE</label> 
 		</div>
-		<textarea id='params' style='width:500px;height:200px'>{"content":"post from desk insert a feedback", "contact":"it2@gmail.com","id":7}</textarea>
+		<textarea id='params' style='width:500px;height:200px'>{"filters":{"_id":"58c8bbf23e7e52ad5831259f"}, "datas":{"nick":"Boby"}, "token":"111111"}</textarea>
 		<input id='submit' type='button' value='submit'></input>
 	</div>
 	<div id='outputting'>

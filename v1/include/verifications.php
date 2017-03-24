@@ -6,24 +6,24 @@ if(!defined('__VERIFICATIONS__')){
 	require_once(dirname(__FILE__) . "/lib/alidayu/TopSdk.php");
 	
 	class VERIFICATIONS extends DOCS{
-		private static $appkey = '23710753';
-		private static $secretKey = '6dd2adac369ce99fb70f153983e0baba';
+		private $appkey = '23710753';
+		private $secretKey = '6dd2adac369ce99fb70f153983e0baba';
 		
-		public static function createVerification($username, $mean){
+		public function createVerification($username, $medium){
 			$code = rand(100000, 999999);
 			$expire = time()+300;
 			$d = array('username'=>$username, 'code'=>$code, 'expire'=>$expire);
-			$res = self::postData($d);
+			$res = $this->postData($d);
 			if(!empty($res)){
-				if($mean == 'tel'){
-					$res = self::sendSMS($code, $username);
+				if($medium == 'tel'){
+					$res = $this->sendSMS($code, $username);
 					if($res['result']['success'] == true){
 						return $d;
 					}else{
 						return false;
 					}
-				}else if($mean == 'addr'){
-					$res = self::sendMail($code, $username);
+				}else if($medium == 'addr'){
+					$res = $this->sendMail($code, $username);
 					return $res;
 				}else{
 					return false;
@@ -33,15 +33,15 @@ if(!defined('__VERIFICATIONS__')){
 			}
 		}
 		
-		public static function sendMail($code, $addr){
+		public function sendMail($code, $addr){
 			//TODO
 			return array();
 		}
 		
-		public static function sendSMS($code, $tel){
+		public function sendSMS($code, $tel){
 			$c = new TopClient;
-			$c->appkey = self::$appkey;
-			$c->secretKey = self::$secretKey;
+			$c->appkey = $this->appkey;
+			$c->secretKey = $this->secretKey;
 			$req = new AlibabaAliqinFcSmsNumSendRequest;
 			//$req->setExtend("123456");
 			$req->setSmsType("normal");
