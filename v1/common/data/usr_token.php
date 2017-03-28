@@ -24,7 +24,8 @@ if(!defined('__TOKEN__')){
 			if(!$_ck_pw['status']) return $_ck_pw;
 			$_ck_clt = $this->vfy->ck_vchar_empty($clt_key);
 			if(!$_ck_clt['status']) return array('status'=>$_ck_clt['status'], 'message'=>'client key is empty');
-			return $token=md5($username.$pw.date('yyyy').date('mm').$clt_key.SALT);
+			$token=md5($username.$pw.date('yyyy').date('mm').$clt_key.SALT);
+			return array('status'=>true, 'message'=>'create token sucess', 'data'=>$token);
 		}
 		//then save it as username with expiry
 		public function save($username, $token, $expiry=36000){

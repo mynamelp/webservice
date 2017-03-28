@@ -150,12 +150,16 @@ switch($method){
 			//create and update token
 			$usrTK = new USRTK('users');
 			$token = $usrTK->create($username, $password, $client);
-			$r = $usrTK->save($username, $token);
+			if(!$token['status']){
+				echo $response->makeResults(500, $token, 'create token failed');
+				die();
+			}
+			$r = $usrTK->save($username, $token['data']);
 			if(!$r['status']){
 				echo $response->makeResults(500, $_POST, $r['message']);
 				die();
 			}
-			$datas['token'] = $token;
+			$datas['token'] = $token['data'];
 			$result = $datas;
 		}else{
 			//todo
