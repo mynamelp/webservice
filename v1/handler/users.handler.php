@@ -143,7 +143,7 @@ switch($method){
 			//check if user exists
 			$usr = new USERS('users');
 			$res = $usr->getData(array('username'=>$username, 'password'=>$password));
-			if(count($res) < 0){
+			if(count($res) <= 0){
 				echo $response->makeResults(400, $_POST, 'invaild username or password');
 				die();
 			}
