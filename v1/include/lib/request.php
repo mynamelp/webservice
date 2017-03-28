@@ -24,7 +24,7 @@ if(!defined('__REQUEST__')){
 				return array(	'success'=>false, 
 								'status'=>400, 
 								'datas'=>array(), 
-								'errmsg'=>'request method is unset'
+								'errmsg'=>'Request method is unset'
 							);
 			}
 			
@@ -42,7 +42,7 @@ if(!defined('__REQUEST__')){
 				return array(	'success'=>false, 
 								'status'=>400, 
 								'datas'=>array(), 
-								'errmsg'=>'request datas is empty'
+								'errmsg'=>'Request datas ,datas is empty'
 				);
 			}
 			switch($_SERVER['REQUEST_METHOD']){
@@ -53,7 +53,7 @@ if(!defined('__REQUEST__')){
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
-										'errmsg'=>'filters unset'
+										'errmsg'=>'Request check post filters , filters unset'
 						);
 					}
 					break;
@@ -64,7 +64,7 @@ if(!defined('__REQUEST__')){
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
-										'errmsg'=>'token unset'
+										'errmsg'=>'Request check post token , token unset'
 						);
 					}
 					//check post['datas']
@@ -73,7 +73,7 @@ if(!defined('__REQUEST__')){
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
-										'errmsg'=>'datas unset'
+										'errmsg'=>'Request check post datas ,datas unset'
 						);
 					}
 					break;
@@ -84,7 +84,7 @@ if(!defined('__REQUEST__')){
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
-										'errmsg'=>'token unset'
+										'errmsg'=>'Request check put token ,token unset'
 						);
 					}
 					//check post['datas']
@@ -93,7 +93,7 @@ if(!defined('__REQUEST__')){
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
-										'errmsg'=>'datas unset'
+										'errmsg'=>'Request check put datas ,datas unset'
 						);
 					}
 					//check post['filters']
@@ -102,7 +102,7 @@ if(!defined('__REQUEST__')){
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
-										'errmsg'=>'filters unset'
+										'errmsg'=>'Request check put filters ,filters unset'
 						);
 					}
 					break;
@@ -113,7 +113,7 @@ if(!defined('__REQUEST__')){
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
-										'errmsg'=>'token unset'
+										'errmsg'=>'Request check PATCH token ,token unset'
 						);
 					}
 					//check post['datas']
@@ -122,7 +122,7 @@ if(!defined('__REQUEST__')){
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
-										'errmsg'=>'datas unset'
+										'errmsg'=>'Request check PATCH datas ,datas unset'
 						);
 					}
 					//check post['filters']
@@ -131,7 +131,7 @@ if(!defined('__REQUEST__')){
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
-										'errmsg'=>'filters unset'
+										'errmsg'=>'Request check PATCH filters ,filters unset'
 						);
 					}
 					break;

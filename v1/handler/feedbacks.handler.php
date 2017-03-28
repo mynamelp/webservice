@@ -42,7 +42,7 @@ switch($method){
 		$fdbk = new FEEDBACKS('feedbacks');
 		$result = $fdbk->postData($datas);
 		if($result == false){
-			echo $response->makeResults(500, $datas, 'Error ,wrong http method');
+			echo $response->makeResults(500, $datas, 'Error ,feedbacks insert datas failed,result is null');
 			die();
 		}
 		echo $response->sendResponse($result);
