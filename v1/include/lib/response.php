@@ -29,7 +29,7 @@ if(!defined('__RESPONSE__')){
 						//err result
 						$code = 404;
 						header(self::HTTP_VERSION . " " . $code . " " . $this->getStatusCodeMessage($code));
-						return $this->makeResults($code, $_SERVER, "Request content-type is defined");
+						return $this->makeResults($code, $_SERVER, "Request content-type is not defined");
 					}
 					if (strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false ||
 							strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
