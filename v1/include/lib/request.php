@@ -148,6 +148,7 @@ if(!defined('__REQUEST__')){
 						);
 		}
 		
+		//Un use
 		public function check_token($token){
 			//token rule: url + date + secret md5
 			$url = "http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING'];

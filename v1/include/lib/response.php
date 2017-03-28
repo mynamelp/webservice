@@ -25,8 +25,14 @@ if(!defined('__RESPONSE__')){
 			}else{
 				try{
 					//输出结果
-					if (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false ||
-							strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false){
+					if(!isset($_SERVER['CONTENT_TYPE'])){
+						//err result
+						$code = 404;
+						header(self::HTTP_VERSION . " " . $code . " " . $this->getStatusCodeMessage($code));
+						return $this->makeResults($code, $_SERVER, "Request content-type is defined");
+					}
+					if (strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false ||
+							strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
 						header("Content-Type: application/json");
 						//result
 						$code = 200;
@@ -36,7 +42,7 @@ if(!defined('__RESPONSE__')){
 						//err result
 						$code = 404;
 						header(self::HTTP_VERSION . " " . $code . " " . $this->getStatusCodeMessage($code));
-						return $this->makeResults($code, array(), "request content type is not application/json");
+						return $this->makeResults($code, $_SERVER, "Request content type is not application/json");
 					}
 				}catch(Exception $e){
 					echo 'Message: ' .$e->getMessage();

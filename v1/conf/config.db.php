@@ -5,7 +5,7 @@ if(!defined("__DBCONFIG_")){
 	define('DB_type', 1); // mongo 0 ,mysql 1
 	define('_LOG',1);//log 0 or 1
     // mongo db info
-	define("MONGO_ADDR",'mongodb://127.0.0.1:28017');
+	define("MONGO_ADDR",'mongodb://127.0.0.1:28017');//106.15.102.76:27017
     //define("MONGO_RS",'rs1');
     define("MONGO_DB",'lamf');
 	define('MONGODB_LOGPATH','./mongologs.txt');//mongo log file path
