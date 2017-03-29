@@ -41,12 +41,13 @@ if(!defined('__REQUEST__')){
 			
 			//$_POST $_GET $_PUT $_PATCH $_DELETE 
 			$_request = $_REQUEST;
+			$this->write_log('1111111: request' . json_encode($_REQUEST));
 			if(empty($_request)){
 				parse_str(file_get_contents('php://input'), $_request);
 				$tmp = "_".$_SERVER['REQUEST_METHOD'];
 				global $$tmp;
 				$$tmp = $_request;
-				$this->write_log("check_request: Make Method : $tmp = $$tmp");
+				$this->write_log("check_request: Create Method : $tmp = " . json_encode($$tmp));
 			}else{
 				$this->write_log('check_request: Method: ' . $_SERVER['REQUEST_METHOD'] . ' $_REQUEST: '. json_encode($_REQUEST));
 			}
