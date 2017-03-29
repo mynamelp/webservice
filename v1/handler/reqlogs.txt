@@ -1,0 +1,9 @@
+2017-03-28 18:02:10 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
+2017-03-28 18:02:10 To fisnish the hull query needs time: 1490695330.365
+2017-03-28 18:02:50 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
+2017-03-28 18:02:50 To fisnish the hull query needs time: 0.26701498031616
+2017-03-29 09:11:35 check_request: Method: POST $_REQUEST: {"controller":"pwdlogin","datas":{"username":"13236911650","password":"111111","client":"client"},"token":""}
+2017-03-29 09:11:35 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
+2017-03-29 09:11:44 check_request: Method: POST $_REQUEST: {"controller":"pwdlogin","datas":{"username":"13236911650","password":"111111","client":"client"},"token":""}
+2017-03-29 09:11:44 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
+2017-03-29 09:11:44 To fisnish the hull query needs time: 0.33101892471313

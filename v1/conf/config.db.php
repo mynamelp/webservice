@@ -3,7 +3,6 @@ error_reporting(E_ALL);
 if(!defined("__DBCONFIG_")){
 	define("__DBCONFIG_",1);
 	define('DB_type', 1); // mongo 0 ,mysql 1
-	define('_LOG',1);//log 0 or 1
     // mongo db info
 	define("MONGO_ADDR",'mongodb://106.15.102.76:27017');//127.0.0.1:28017
     //define("MONGO_RS",'rs1');

@@ -5,14 +5,24 @@ if(!defined('__REQUEST__')){
 
 	class REQUEST{
 		private $client_secret = 'lamifeng';
+		private $handle;
+		private $is_log;
+		private $time;
 	
 		public function __construct(){
-	
+			// time start
+			$this->time = $this->microtime_float();
+			$this->is_log = _LOG;
+			if($this->is_log){
+				$handle = fopen(REQ_LOGPATH, "a+");
+				$this->handle=$handle;
+			}
 		}
 		
 		public function check_request(){
 			//check _SERVER
 			if(empty($_SERVER)){
+				$this->write_log('check_request: $_Server is empty');
 				return array(	'success'=>false, 
 								'status'=>400, 
 								'datas'=>array(), 
@@ -21,6 +31,7 @@ if(!defined('__REQUEST__')){
 			}
 			//check method
 			if(!isset($_SERVER['REQUEST_METHOD'])){
+				$this->write_log('check_request: REQUEST_METHOD is unset');
 				return array(	'success'=>false, 
 								'status'=>400, 
 								'datas'=>array(), 
@@ -35,10 +46,13 @@ if(!defined('__REQUEST__')){
 				$tmp = "_".$_SERVER['REQUEST_METHOD'];
 				global $$tmp;
 				$$tmp = $_request;
+				$this->write_log("check_request: Make Method : $tmp = $$tmp");
+			}else{
+				$this->write_log('check_request: Method: ' . $_SERVER['REQUEST_METHOD'] . ' $_REQUEST: '. json_encode($_REQUEST));
 			}
-			
 			//check post and get datas
 			if(empty($_request)){
+				$this->write_log('check_request: $_REQUEST is empty');
 				return array(	'success'=>false, 
 								'status'=>400, 
 								'datas'=>array(), 
@@ -50,6 +64,7 @@ if(!defined('__REQUEST__')){
 					//filters cant be empty
 					if(!isset($_request['filters'])){
 						//unset filters 
+						$this->write_log('check_request GET: filters is unset');
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
@@ -61,6 +76,7 @@ if(!defined('__REQUEST__')){
 					//check post['token']
 					if(!isset($_request['token'])){
 						//unset token 
+						$this->write_log('check_request POST: token is unset');
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
@@ -70,6 +86,7 @@ if(!defined('__REQUEST__')){
 					//check post['datas']
 					if(!isset($_request['datas'])){
 						//unset datas
+						$this->write_log('check_request POST: datas is unset');
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
@@ -81,6 +98,7 @@ if(!defined('__REQUEST__')){
 					//check post['token']
 					if(!isset($_request['token'])){
 						//unset token 
+						$this->write_log('check_request PUT: token is unset');
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
@@ -90,6 +108,7 @@ if(!defined('__REQUEST__')){
 					//check post['datas']
 					if(!isset($_request['datas'])){
 						//unset datas
+						$this->write_log('check_request PUT: datas is unset');
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
@@ -99,6 +118,7 @@ if(!defined('__REQUEST__')){
 					//check post['filters']
 					if(!isset($_request['filters'])){
 						//unset filters
+						$this->write_log('check_request PUT: filters is unset');
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
@@ -110,6 +130,7 @@ if(!defined('__REQUEST__')){
 					//check post['token']
 					if(!isset($_request['token'])){
 						//unset token 
+						$this->write_log('check_request PATCH: token is unset');
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
@@ -119,6 +140,7 @@ if(!defined('__REQUEST__')){
 					//check post['datas']
 					if(!isset($_request['datas'])){
 						//unset token 
+						$this->write_log('check_request PATCH: datas is unset');
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
@@ -128,6 +150,7 @@ if(!defined('__REQUEST__')){
 					//check post['filters']
 					if(!isset($_request['filters'])){
 						//unset token 
+						$this->write_log('check_request PATCH: filters is unset');
 						return array(	'success'=>false, 
 										'status'=>400, 
 										'datas'=>$_request, 
@@ -141,6 +164,7 @@ if(!defined('__REQUEST__')){
 				default:
 					break;
 			}
+			$this->write_log("check_request: Success ". $_SERVER['REQUEST_METHOD'] ." uri: " . $_SERVER['REQUEST_URI']);
 			return array(	'success'=>true, 
 							'status'=>200, 
 							'datas'=>$_request, 
@@ -149,6 +173,7 @@ if(!defined('__REQUEST__')){
 		}
 		
 		//Un use
+		/*
 		public function check_token($token){
 			//token rule: url + date + secret md5
 			$url = "http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING'];
@@ -157,6 +182,37 @@ if(!defined('__REQUEST__')){
 				return true;
 			}
 			return false;
+		}
+		*/
+		
+		public function __destruct() {
+			$use_time = ($this-> microtime_float())-($this->time);
+			$this->write_log("To fisnish the hull query needs time: ".$use_time);
+			if($this->is_log){
+				fclose($this->handle);
+			}
+		}
+		
+		////////////////////////////////////
+		//die and alert error
+		private function halt($msg='') {
+			//$msg .= "\r\n".mysql_error();
+			$this->write_log($msg);
+			die($msg);
+		}
+		
+		//log
+		private function write_log($msg=''){
+			if($this->is_log){
+				$text = date("Y-m-d H:i:s")." ".$msg."\r\n";
+				fwrite($this->handle,$text);
+			}
+		}
+		
+		//turn to microtime
+		private function microtime_float() {
+			list($usec, $sec) = explode(" ", microtime());
+			return ((float)$usec + (float)$sec);
 		}
 		
 

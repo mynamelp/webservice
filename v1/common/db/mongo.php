@@ -22,6 +22,7 @@ if(!defined('__MONGO__')){
 				$this->db = $this->connection->selectDB(MONGO_DB);//$this->db = $this->connection->lamf;
 				$this->collection = $this->db->selectCollection($cname);
 			}catch(Exception $e){
+				$this->write_log('Construct exception : ' .$e->getMessage());
 				echo 'Message: ' .$e->getMessage();
 			}
 			$this->is_log = _LOG;
@@ -56,6 +57,7 @@ if(!defined('__MONGO__')){
 				if(!empty($sort)){$cursor->sort($sort);}
 				if($skip !== 0){$cursor->skip($skip);}
 			}catch(Exception $e){
+				$this->write_log('Find exception : ' .$e->getMessage());
 				echo 'Message: ' .$e->getMessage();
 			}
 			//return iterator_to_array($cursor);
@@ -63,7 +65,7 @@ if(!defined('__MONGO__')){
 			foreach($cursor as $v){
 				array_push($datas,$v);
 			}
-			
+			$this->write_log("Find ,filters:" . json_encode($filters) . ",Result:". json_encode($datas));
 			return $datas;
 		}
 		
@@ -72,12 +74,10 @@ if(!defined('__MONGO__')){
 				if(isset($filters['_id'])){
 					$filters['_id'] = new MongoId($filters['_id']);
 				}
-				//foreach($filters as &$v){
-					//$v = $this->to_int($v);
-				//}
-				//unset($v);
 				$cursor = $this->collection->findOne($filters);
+				$this->write_log("find_one ,filters:" . json_encode($filters) . ",Result:". json_encode($cursor));
 			}catch(Exception $e){
+				$this->write_log('Find one exception : ' .$e->getMessage());
 				echo 'Message: ' .$e->getMessage();
 			}
 			return $cursor;
@@ -86,9 +86,11 @@ if(!defined('__MONGO__')){
 		//return {'ok': , 'err': , 'n': } check php mongodb insert doc 
 		public function insert($datas = array()){
 			try{
-				
-				return $this->collection->insert($datas);
+				$res = $this->collection->insert($datas);
+				$this->write_log("Delete ,datas:" . json_encode($datas) . ",Result:". json_encode($res));
+				return $res;
 			}catch(Exception $e){
+				$this->write_log('Insert exception : ' .$e->getMessage());
 				echo 'Message: ' .$e->getMessage();
 			}
 		}
@@ -102,31 +104,50 @@ if(!defined('__MONGO__')){
 				if(isset($filters['_id'])){
 					$filters['_id'] = new MongoId($filters['_id']);
 				}
-				return $this->collection->remove($filters);//, array("justOne" => true)
+				$res = $this->collection->remove($filters);//, array("justOne" => true)
+				$this->write_log("Delete ,filters:" . json_encode($filters) . ",Result:". json_encode($res));
+				return $res;
 			}catch(Exception $e){
+				$this->write_log('Delete exception : ' .$e->getMessage());
 				echo 'Message: ' .$e->getMessage();
 			}
 		}
 		
 		public function put($filters, $datas, $options = array('upsert', false, 'multiple'=>true)){
 			try{
+				
 				if(isset($filters['_id'])){
 					$filters['_id'] = new MongoId($filters['_id']);
 				}
-				return $this->collection->update($filters, $datas, $options);//, array("justOne" => true)
+				$res = $this->collection->update($filters, $datas, $options);//, array("justOne" => true)
+				$this->write_log("Put ,filters:" . json_encode($filters) .", datas:" . json_encode($datas) . ",Result:". json_encode($res));
+				return $res;
 			}catch(Exception $e){
+				$this->write_log('Put exception : ' .$e->getMessage());
 				echo 'Message: ' .$e->getMessage();
 			}
 		}
 		
 		public function patch($filters, $datas, $options = array('upsert', false, 'multiple'=>true)){
 			try{
+				$this->write_log("Patch ,filters:" . json_encode($filters) .", datas:" . json_encode($datas) . "");
 				if(isset($filters['_id'])){
 					$filters['_id'] = new MongoId($filters['_id']);
 				}
-				return $this->collection->update($filters, array('$set'=> $datas), $options);//, array("justOne" => true)
+				$res = $this->collection->update($filters, array('$set'=> $datas), $options);//, array("justOne" => true)
+				$this->write_log("Put ,filters:" . json_encode($filters) .", datas:" . json_encode($datas) . ",Result:". json_encode($res));
+				return $res;
 			}catch(Exception $e){
+				$this->write_log('Patch exception : ' .$e->getMessage());
 				echo 'Message: ' .$e->getMessage();
+			}
+		}
+		
+		public function __destruct() {
+			$use_time = ($this-> microtime_float())-($this->time);
+			$this->write_log("To fisnish the hull query needs time: ".$use_time);
+			if($this->is_log){
+				fclose($this->handle);
 			}
 		}
 		
