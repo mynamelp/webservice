@@ -38,22 +38,23 @@ if(!defined('__REQUEST__')){
 								'errmsg'=>'Request method is unset'
 							);
 			}
-			
 			//$_POST $_GET $_PUT $_PATCH $_DELETE 
-			$_request = $_REQUEST;
-			$this->write_log('1111111: request' . json_encode($_REQUEST));
-			if(empty($_request)){
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$_request = $_POST;
+				$this->write_log('Request method POST : ' . json_encode($_request));
+			}else if($_SERVER['REQUEST_METHOD'] == 'GET'){
+				$_request = $_GET;
+				$this->write_log('Request method GET : ' . json_encode($_request));
+			}else{
 				parse_str(file_get_contents('php://input'), $_request);
 				$tmp = "_".$_SERVER['REQUEST_METHOD'];
 				global $$tmp;
 				$$tmp = $_request;
-				$this->write_log("check_request: Create Method : $tmp = " . json_encode($$tmp));
-			}else{
-				$this->write_log('check_request: Method: ' . $_SERVER['REQUEST_METHOD'] . ' $_REQUEST: '. json_encode($_REQUEST));
+				$this->write_log("Request method $tmp : " . json_encode($$tmp));
 			}
-			//check post and get datas
+			//check request datas
 			if(empty($_request)){
-				$this->write_log('check_request: $_REQUEST is empty');
+				$this->write_log('Request datas ,datas is empty');
 				return array(	'success'=>false, 
 								'status'=>400, 
 								'datas'=>array(), 
