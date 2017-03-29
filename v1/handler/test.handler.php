@@ -7,8 +7,9 @@ require_once(dirname(__FILE__) . "/../include/lib/request.php");
 require_once(dirname(__FILE__) . "/../include/lib/response.php");
 require_once(dirname(__FILE__) . "/../common/data/usr_token.php");
 
+echo json_encode($_POST);
+
 $response = new Response();
 $request = new Request();
 $cr = $request->check_request();
-
 ?>

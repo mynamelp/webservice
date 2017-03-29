@@ -53,3 +53,13 @@
 2017-03-29 09:11:44 Put ,filters:{"username":"13236911650"}, datas:{"token":"25893bb24b40c7a4934bb25c0ecd85ab","expiry":36000},Result:{"n":1,"nModified":0,"ok":1,"err":null,"errmsg":null,"updatedExisting":true}
 2017-03-29 09:11:44 To fisnish the hull query needs time: 0.054003000259399
 2017-03-29 09:11:44 To fisnish the hull query needs time: 0.33001899719238
+2017-03-29 09:53:52 Find ,filters:{"username":"13236911650","password":"111111"},Result:[{"_id":{"$id":"58d8a005ef6c13ace339163b"},"username":"13236911650","password":"111111","info":{"nick":"Bob","age":30,"url":"http:\/\/lamf-imgs.oss-cn-shanghai.aliyuncs.com\/20170324.jpeg","city":"Dalian","phone":"13236911650","sex":0,"birthday":543859200,"workage":2,"qc":1},"client":"client","token":"25893bb24b40c7a4934bb25c0ecd85ab","type":1,"rank":4.1,"counts":0,"cash":0,"createAt":1490667400,"lasttime":1490667402,"expiry":36000}]
+2017-03-29 09:53:52 Patch ,filters:{"username":"13236911650"}, datas:{"token":"25893bb24b40c7a4934bb25c0ecd85ab","expiry":36000}
+2017-03-29 09:53:53 Put ,filters:{"username":"13236911650"}, datas:{"token":"25893bb24b40c7a4934bb25c0ecd85ab","expiry":36000},Result:{"n":1,"nModified":0,"ok":1,"err":null,"errmsg":null,"updatedExisting":true}
+2017-03-29 09:53:53 To fisnish the hull query needs time: 0.67103791236877
+2017-03-29 09:53:53 To fisnish the hull query needs time: 2.6451511383057
+2017-03-29 10:02:44 Find ,filters:{"username":"13236911650","password":"111111"},Result:[{"_id":{"$id":"58d8a005ef6c13ace339163b"},"username":"13236911650","password":"111111","info":{"nick":"Bob","age":30,"url":"http:\/\/lamf-imgs.oss-cn-shanghai.aliyuncs.com\/20170324.jpeg","city":"Dalian","phone":"13236911650","sex":0,"birthday":543859200,"workage":2,"qc":1},"client":"client","token":"25893bb24b40c7a4934bb25c0ecd85ab","type":1,"rank":4.1,"counts":0,"cash":0,"createAt":1490667400,"lasttime":1490667402,"expiry":36000}]
+2017-03-29 10:02:44 Patch ,filters:{"username":"13236911650"}, datas:{"token":"25893bb24b40c7a4934bb25c0ecd85ab","expiry":36000}
+2017-03-29 10:02:44 Put ,filters:{"username":"13236911650"}, datas:{"token":"25893bb24b40c7a4934bb25c0ecd85ab","expiry":36000},Result:{"n":1,"nModified":0,"ok":1,"err":null,"errmsg":null,"updatedExisting":true}
+2017-03-29 10:02:44 To fisnish the hull query needs time: 0.11500716209412
+2017-03-29 10:02:44 To fisnish the hull query needs time: 0.50602912902832
