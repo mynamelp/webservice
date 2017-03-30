@@ -13,3 +13,17 @@
 2017-03-29 10:02:43 Request method POST : {"controller":"pwdlogin","datas":{"username":"13236911650","password":"111111","client":"client"},"token":""}
 2017-03-29 10:02:43 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
 2017-03-29 10:02:44 To fisnish the hull query needs time: 0.50702905654907
+2017-03-29 11:16:49 Request method POST : {"controller":"pwdlogin","datas":{"username":"13236911650","password":"111111","client":"client"},"token":""}
+2017-03-29 11:16:49 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
+2017-03-29 11:16:55 Request method POST : {"controller":"pwdlogin","datas":{"username":"13236911650","password":"111111","client":"client"},"token":""}
+2017-03-29 11:16:55 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
+2017-03-29 11:17:02 Request method POST : {"controller":"pwdlogin","datas":{"username":"13236911650","password":"111111","client":"client"},"token":""}
+2017-03-29 11:17:02 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
+2017-03-29 11:17:09 Request method POST : {"controller":"pwdlogin","datas":{"username":"13236911650","password":"111111","client":"client"},"token":""}
+2017-03-29 11:17:09 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
+2017-03-29 11:23:08 Request method POST : {"controller":"pwdlogin","datas":{"username":"13236911650","password":"111111","client":"client"},"token":""}
+2017-03-29 11:23:08 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
+2017-03-29 13:06:36 Request method GET : {"filters":{"_id":"58c8bbf23e7e52ad5831259f"},"datas":{"nick":"Boby"},"token":"111111"}
+2017-03-29 13:06:36 check_request: Success GET uri: /lamf/trunk/api/v1/handler/users.handler.php?filters%5B_id%5D=58c8bbf23e7e52ad5831259f&datas%5Bnick%5D=Boby&token=111111
+2017-03-29 13:28:53 Request method POST : {"controller":"pwdlogin","datas":{"username":"13236911650","password":"111111","client":"client"},"token":""}
+2017-03-29 13:28:53 check_request: Success POST uri: /lamf/trunk/api/v1/handler/users.handler.php
